@@ -1,6 +1,5 @@
 const colors = require('colors');
 const primes = [];
-let counter = 0;
 
 const searchPrimes = () => {
     nextPrime:
@@ -16,7 +15,9 @@ const searchPrimes = () => {
 };
 
 const primesOutput = () => {
-    if (primes.length !== 0) {
+    let counter = 0;
+
+    if (primes.length) {
         primes.forEach(el => {
             if (counter === 0) {
                 console.log( colors.red(el) );
@@ -32,7 +33,7 @@ const primesOutput = () => {
     } else {
         console.log(colors.red('Простых чисел не обнаружено!'))
     }
-}
+};
 
 if (isNaN(process.argv[2]) || isNaN(process.argv[3])) {
     console.log(colors.red('Введите число, а не ерунду!'));
