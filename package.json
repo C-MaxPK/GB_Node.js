@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "timer": "node homework2/task2.js",
+    "fs": "node hw3_fileSystem.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,6 +20,7 @@
   },
   "homepage": "https://github.com/C-MaxPK/Node.js#readme",
   "dependencies": {
-    "colors": "^1.4.0"
+    "colors": "^1.4.0",
+    "linebyline": "^1.3.0"
   }
 }
