@@ -7,7 +7,6 @@ const inquirer = require('inquirer');
 
 const isFile = path => fs.lstatSync(path).isFile(); // проверка на файл
 const filesList = path => fs.readdirSync(path); // список файлов и папок
-// const executionDir = process.cwd(); // абсолютный путь до директории, где была запущена команда node
 
 const rl = readline.createInterface({
     input: process.stdin,
@@ -25,7 +24,7 @@ const question = async (query) => new Promise(resolve => rl.question(query, reso
     if (foundMatches !== null) console.log(`Найдено совпадений: ${foundMatches.length}`);
     else console.log('Совпадений не найдено');
     
-    // rl.close(); // работает и без закрытия почему-то
+    rl.close(); // работает и без закрытия почему-то
 })();
 
 const inquirerCLI = (pathToFiles) => inquirer
@@ -38,25 +37,13 @@ const inquirerCLI = (pathToFiles) => inquirer
         }
     ])
     .then(answer => {
-        console.log('ЗАШЛИ в 2 THEN');
         const name = answer.fileName; // название выбранного файла или папки
-        const fullPathToDirOrFile = path.resolve(pathToFiles, name); // полный путь до файла или папки
-        console.log(fullPathToDirOrFile, 'полный путь из 2 THEN до условий');
+        const fullPath = path.resolve(pathToFiles, name); // полный путь до файла или папки
         
-        
-        if (isFile(fullPathToDirOrFile)) {
-            console.log(name, 'название файла из IF');
-            return name;
+        if (isFile(fullPath)) {
+            const data = fs.readFileSync(fullPath, 'utf-8'); // чтение данных из файла
+            return data;
         } else {
-            console.log('зашли в ELSE');
-            // return new Promise( resolve => inquirerCLI(fullPathToDirOrFile, resolve)); // так данные не возвращаются из последнего .then
-            return inquirerCLI(fullPathToDirOrFile);
+            return inquirerCLI(fullPath);
         }
-    })
-    .then(fileName => {
-        console.log('ЗАШЛИ в 3 THEN'); // ОТРАБАТЫВАЕТ 2 РАЗА почему-то
-        const fullPathToFile = path.resolve(pathToFiles, fileName); // полный путь до файла
-        console.log(fullPathToFile, 'полный путь до ФАЙЛА из 3 THEN');
-        const data = fs.readFileSync(fullPathToFile, 'utf-8'); // чтение данных из файла
-        return data;
     });
