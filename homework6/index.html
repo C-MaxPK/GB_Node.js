@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Socket.io</title>
+    <script src="https://cdn.socket.io/4.2.0/socket.io.min.js" integrity="sha384-PiBR5S00EtOj2Lto9Uu81cmoyZqR57XcOna1oAuVuIEjzj0wpqDVfD0JA9eXlRsj" crossorigin="anonymous"></script>
+</head>
+<body>
+    <form id="form">
+        <input id="input" type="text" autofocus>
+        <button id="button">Send</button>
+    </form>
+    <div id="messages"></div>
+    
+    <script>
+        const socket = io('localhost:3000');
+        const input = document.querySelector('#input');
+        const sendButton = document.querySelector('#button');
+        const messageBlock = document.querySelector('#messages');
+
+        const nameRandom = `Пользователь${Math.round(Math.random() * 100)}`;
+
+        socket.on('connect', () => {
+            console.log('Подключились к серваку');
+            socket.emit('client-entered', nameRandom);
+        });
+
+        socket.on('server-entered', name => {
+            messageBlock.insertAdjacentHTML('beforeend', `<div><u>${name} подключился...</u></div>`);
+        });
+
+        socket.on('server-msg', data => {
+            messageBlock.insertAdjacentHTML('beforeend', `<div><b>${data.author} :</b> ${data.message}</div>`);
+        });
+
+        socket.on('server-exit', name => {
+            messageBlock.insertAdjacentHTML('beforeend', `<div><b>${name} отключился</b></div>`);
+        });
+
+        socket.on('disconnect', reason => {
+            if (reason === 'io server disconnect') {
+                socket.emit('client-exit', nameRandom);
+            }
+        });
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const data = {
+                author: nameRandom,
+                message: input.value
+            };
+
+            socket.emit('client-msg', data);
+            input.value = '';
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+{
+  "name": "node-js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "timer": "node homework2/task2.js",
+    "fs": "node hw3_fileSystem.js",
+    "cli": "node hw4_cli.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/C-MaxPK/Node.js.git"
+  },
+  "author": "C-Max",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/C-MaxPK/Node.js/issues"
+  },
+  "homepage": "https://github.com/C-MaxPK/Node.js#readme",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "inquirer": "^8.2.0",
+    "linebyline": "^1.3.0",
+    "nodemon": "^2.0.14",
+    "socket.io": "^4.3.2",
+    "yargs": "^17.2.1"
+  }
+}
